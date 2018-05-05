@@ -1,0 +1,18 @@
+sudo: required
+#env:
+#  global:
+#    - secure: 
+services:
+- docker
+language: bash
+script:
+# prepare qemu
+- docker run --rm --privileged multiarch/qemu-user-static:register --reset
+# build image
+- docker build -t $TRAVIS_REPO_SLUG:$TRAVIS_BRANCH .
+# push image
+- >
+  if [ "$TRAVIS_BRANCH" == "latest" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+#    docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
+#    docker push $TRAVIS_REPO_SLUG:$TRAVIS_BRANCH
+  fi
